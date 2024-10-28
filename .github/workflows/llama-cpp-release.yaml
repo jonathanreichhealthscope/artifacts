@@ -35,13 +35,14 @@ jobs:
         uses: pypa/cibuildwheel@v2.21.1
         env:
           # disable repair
+          CIBW_SKIP: "*musllinux* pp*"
           CIBW_REPAIR_WHEEL_COMMAND: ""
         with:
           package-dir: ./vendor/llama-cpp-python
           output-dir: wheelhouse
 
       - name: Run Echo
-        working-directory: ./wheelhouse
+        working-directory: wheelhouse
         run: |
           echo  $(ls -la | grep *.whl)
           
@@ -66,7 +67,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.1
         env:
-          CIBW_SKIP: "pp*" #*musllinux* 
+          CIBW_SKIP: "*musllinux* pp*" #*musllinux* 
           CIBW_REPAIR_WHEEL_COMMAND: ""
           CIBW_ARCHS: "aarch64"
           CIBW_BUILD: "cp310-*" # cp311-* cp312-*
@@ -75,7 +76,7 @@ jobs:
           output-dir: wheelhouse
 
       - name: Run Echo
-        working-directory: ./wheelhouse
+        working-directory: wheelhouse
         run: |
           echo  $(ls -la | grep *.whl)
       # - name: Upload wheels as artifacts
