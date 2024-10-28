@@ -114,7 +114,7 @@ jobs:
       - name: Run Echo
         working-directory: ./vendor/llama-cpp-python/dist
         run: |
-          echo  $(ls -la)
+          echo  $(ls -la | grep "*.tar.gz")
 
       # - uses: actions/upload-artifact@v4
       #   with:
