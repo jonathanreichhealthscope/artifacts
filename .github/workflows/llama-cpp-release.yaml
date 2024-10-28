@@ -40,10 +40,10 @@ jobs:
           CIBW_BUILD: "cp310-*" # cp311-* cp312-*
         with:
           package-dir: ./vendor/llama-cpp-python
-          output-dir: wheelhouse
+          output-dir: ./wheelhouse
 
       - name: Run Echo
-        working-directory: wheelhouse
+        working-directory: ./wheelhouse
         run: |
           echo  $(ls -la | grep *.whl)
           
@@ -74,10 +74,10 @@ jobs:
           CIBW_BUILD: "cp310-*" # cp311-* cp312-*
         with:
           package-dir: ./vendor/llama-cpp-python
-          output-dir: wheelhouse
+          output-dir: ./wheelhouse
 
       - name: Run Echo
-        working-directory: wheelhouse
+        working-directory: ./wheelhouse
         run: |
           echo  $(ls -la | grep *.whl)
       # - name: Upload wheels as artifacts
