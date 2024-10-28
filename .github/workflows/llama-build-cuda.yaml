@@ -64,7 +64,7 @@ jobs:
           auto-activate-base: false
 
       - name: Install Dependencies
-        work-dir: vendor/llama-cpp-python
+        working-directory: vendor/llama-cpp-python
         env:
           MAMBA_DOWNLOAD_FAILFAST: "0"
           MAMBA_NO_LOW_SPEED_LIMIT: "1"
@@ -74,7 +74,7 @@ jobs:
           python -m pip install build wheel
 
       - name: Build Wheel
-        work-dir: vendor/llama-cpp-python
+        working-directory: vendor/llama-cpp-python
         run: |
           $cudaVersion = $env:CUDAVER.Remove($env:CUDAVER.LastIndexOf('.')).Replace('.','')
           $env:CUDA_PATH = $env:CONDA_PREFIX
@@ -100,7 +100,7 @@ jobs:
           Write-Output "CUDA_VERSION=$cudaVersion" >> $env:GITHUB_ENV
 
       - uses: softprops/action-gh-release@v2
-        work-dir: vendor/llama-cpp-python
+        working-directory: vendor/llama-cpp-python
         with:
           files: dist/*
           # Set tag_name to <tag>-cu<cuda_version>
