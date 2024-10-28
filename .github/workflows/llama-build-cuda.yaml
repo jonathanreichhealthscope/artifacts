@@ -100,7 +100,6 @@ jobs:
           Write-Output "CUDA_VERSION=$cudaVersion" >> $env:GITHUB_ENV
 
       - uses: softprops/action-gh-release@v2
-        working-directory: vendor/llama-cpp-python
         with:
           files: dist/*
           # Set tag_name to <tag>-cu<cuda_version>
