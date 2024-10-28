@@ -101,7 +101,7 @@ jobs:
 
       - uses: softprops/action-gh-release@v2
         with:
-          files: dist/*
+          files: vendor/llama-cpp-python/dist/*
           # Set tag_name to <tag>-cu<cuda_version>
           tag_name: ${{ github.ref_name }}-cu${{ env.CUDA_VERSION }}
         env:
