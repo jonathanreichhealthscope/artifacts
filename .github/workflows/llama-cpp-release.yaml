@@ -43,7 +43,7 @@ jobs:
       - name: Run Echo
         working-directory: ./vendor/llama-cpp-python/wheelhouse
         run: |
-          echo  $(ls -la | grep "*.whl")
+          echo  $(ls -la | grep *.whl)
           
       # - uses: actions/upload-artifact@v4
       #   with:
@@ -77,7 +77,7 @@ jobs:
       - name: Run Echo
         working-directory: ./vendor/llama-cpp-python/wheelhouse
         run: |
-          echo  $(ls -la | grep "*.whl")
+          echo  $(ls -la | grep *.whl)
       # - name: Upload wheels as artifacts
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -114,7 +114,7 @@ jobs:
       - name: Run Echo
         working-directory: ./vendor/llama-cpp-python/dist
         run: |
-          echo  $(ls -la | grep "*.tar.gz")
+          echo  $(ls -la | grep *.tar.gz)
 
       # - uses: actions/upload-artifact@v4
       #   with:
