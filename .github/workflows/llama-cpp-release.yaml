@@ -41,7 +41,7 @@ jobs:
           output-dir: wheelhouse
 
       - name: Run Echo
-        working-directory: ./vendor/llama-cpp-python/wheelhouse
+        working-directory: ./wheelhouse
         run: |
           echo  $(ls -la | grep *.whl)
           
@@ -75,7 +75,7 @@ jobs:
           output-dir: wheelhouse
 
       - name: Run Echo
-        working-directory: ./vendor/llama-cpp-python/wheelhouse
+        working-directory: ./wheelhouse
         run: |
           echo  $(ls -la | grep *.whl)
       # - name: Upload wheels as artifacts
