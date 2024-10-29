@@ -42,11 +42,16 @@ jobs:
           package-dir: ./vendor/llama-cpp-python
           output-dir: ./wheelhouse
 
-      - name: Run Echo
+      - name: Run Echo Whl
         working-directory: ./wheelhouse
         run: |
-          echo  $(ls -la | grep *.whl)
-          
+          echo $(ls -la | grep *.whl)
+
+      - name: Run Echo all
+        working-directory: ./wheelhouse
+        run: |
+          echo $(ls -la )
+
       # - uses: actions/upload-artifact@v4
       #   with:
       #     name: wheels-${{ matrix.os }}
@@ -76,10 +81,15 @@ jobs:
           package-dir: ./vendor/llama-cpp-python
           output-dir: ./wheelhouse
 
-      - name: Run Echo
+      - name: Run Echo whl
         working-directory: ./wheelhouse
         run: |
-          echo  $(ls -la | grep *.whl)
+          echo $(ls -la | grep *.whl)
+
+      - name: Run Echo all
+        working-directory: ./wheelhouse
+        run: |
+          echo $(ls -la )
       # - name: Upload wheels as artifacts
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -116,7 +126,7 @@ jobs:
       - name: Run Echo
         working-directory: ./vendor/llama-cpp-python/dist
         run: |
-          echo  $(ls -la | grep *.tar.gz)
+          echo $(ls -la | grep *.tar.gz)
 
       # - uses: actions/upload-artifact@v4
       #   with:
