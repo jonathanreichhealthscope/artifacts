@@ -44,7 +44,6 @@ jobs:
       - name: Run Echo Whl
         working-directory: ./wheelhouse
         run: |
-          #echo $(ls -la | grep *.whl)
           ehco $(ls -la *.whl)
 
       - name: Run Echo all
@@ -84,7 +83,6 @@ jobs:
       - name: Run Echo whl
         working-directory: ./wheelhouse
         run: |
-          #echo $(ls -la | grep *.whl)
           ehco $(ls -la *.whl)
 
       - name: Run Echo all
@@ -127,7 +125,7 @@ jobs:
       - name: Run Echo
         working-directory: ./vendor/llama-cpp-python/dist
         run: |
-          echo $(ls -la | grep *.tar.gz)
+          ehco $(ls -la *.tar.gz)
 
       # - uses: actions/upload-artifact@v4
       #   with:
