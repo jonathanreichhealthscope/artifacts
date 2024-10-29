@@ -34,7 +34,6 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.1
         env:
-          # disable repair
           CIBW_SKIP: "*musllinux* pp*"
           CIBW_REPAIR_WHEEL_COMMAND: ""
           CIBW_BUILD: "cp310-*" # cp311-* cp312-*
@@ -45,12 +44,13 @@ jobs:
       - name: Run Echo Whl
         working-directory: ./wheelhouse
         run: |
-          echo $(ls -la | grep *.whl)
+          #echo $(ls -la | grep *.whl)
+          ehco $(ls -la *.whl)
 
       - name: Run Echo all
         working-directory: ./wheelhouse
         run: |
-          echo $(ls -la )
+          echo $(ls -la)
 
       # - uses: actions/upload-artifact@v4
       #   with:
@@ -73,7 +73,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.1
         env:
-          CIBW_SKIP: "*musllinux* pp*" #*musllinux* 
+          CIBW_SKIP: "*musllinux* pp*" 
           CIBW_REPAIR_WHEEL_COMMAND: ""
           CIBW_ARCHS: "aarch64"
           CIBW_BUILD: "cp310-*" # cp311-* cp312-*
@@ -84,12 +84,13 @@ jobs:
       - name: Run Echo whl
         working-directory: ./wheelhouse
         run: |
-          echo $(ls -la | grep *.whl)
+          #echo $(ls -la | grep *.whl)
+          ehco $(ls -la *.whl)
 
       - name: Run Echo all
         working-directory: ./wheelhouse
         run: |
-          echo $(ls -la )
+          echo $(ls -la)
       # - name: Upload wheels as artifacts
       #   uses: actions/upload-artifact@v4
       #   with:
