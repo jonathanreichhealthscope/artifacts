@@ -45,7 +45,7 @@ jobs:
       - name: Run Echo
         working-directory: ./wheelhouse
         run: |
-          echo  $(ls -la | grep *.whl)
+          echo  $(ls -la)
           
       # - uses: actions/upload-artifact@v4
       #   with:
