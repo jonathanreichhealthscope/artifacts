@@ -41,20 +41,15 @@ jobs:
           package-dir: ./vendor/llama-cpp-python
           output-dir: ./wheelhouse
 
-      - name: Run Echo Whl
-        working-directory: ./wheelhouse
-        run: |
-          echo $(ls -la *.whl)
+      # - name: Run Echo Whl
+      #   working-directory: ./wheelhouse
+      #   run: |
+      #     echo $(ls -la *.whl)
 
-      - name: Run Echo all
-        working-directory: ./wheelhouse
-        run: |
-          echo $(ls -la)
-
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: wheels-${{ matrix.os }}
-      #     path: ./wheelhouse/*.whl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: ./wheelhouse/*.whl
 
   build_wheels_arm64:
     name: Build arm64 wheels
@@ -80,20 +75,16 @@ jobs:
           package-dir: ./vendor/llama-cpp-python
           output-dir: ./wheelhouse
 
-      - name: Run Echo whl
-        working-directory: ./wheelhouse
-        run: |
-          echo $(ls -la *.whl)
+      # - name: Run Echo whl
+      #   working-directory: ./wheelhouse
+      #   run: |
+      #     echo $(ls -la *.whl)
 
-      - name: Run Echo all
-        working-directory: ./wheelhouse
-        run: |
-          echo $(ls -la)
-      # - name: Upload wheels as artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: wheels_arm64
-      #     path: ./wheelhouse/*.whl
+      - name: Upload wheels as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels_arm64
+          path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
@@ -122,29 +113,29 @@ jobs:
         run: |
           python -m build --sdist
 
-      - name: Run Echo
-        working-directory: ./vendor/llama-cpp-python/dist
-        run: |
-          echo $(ls -la *.tar.gz)
+      # - name: Run Echo
+      #   working-directory: ./vendor/llama-cpp-python/dist
+      #   run: |
+      #     echo $(ls -la *.tar.gz)
 
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: sdist
-      #     path: ./dist/*.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path:  ./vendor/llama-cpp-python/dist/*.tar.gz
 
-  # release:
-  #   name: Release
-  #   needs: [build_wheels, build_wheels_arm64, build_sdist]
-  #   runs-on: ubuntu-latest
+  release:
+    name: Release
+    needs: [build_wheels, build_wheels_arm64, build_sdist]
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         merge-multiple: true
-  #         path: dist
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: dist
 
-  #     - uses: softprops/action-gh-release@v2
-  #       with:
-  #         files: dist/*
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
