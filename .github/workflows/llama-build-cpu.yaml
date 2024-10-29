@@ -137,5 +137,7 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           files: dist/*
+          # Set tag_name to <tag>-cpu
+          tag_name: ${{ github.ref_name }}-cpu
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
