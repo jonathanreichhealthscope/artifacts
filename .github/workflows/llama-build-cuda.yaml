@@ -15,7 +15,7 @@ jobs:
       run:
         shell: pwsh
 
-##"12.2.2", "12.3.2", "12.4.1", "12.5.0" "12.2.0" cuda
+##"12.2.2", "12.3.2", "12.4.1", "12.5.0" "12.2.0"  #12.2.0 (prev tag) cuda
     steps:
       - name: Define Job Output
         id: set-matrix
@@ -23,7 +23,7 @@ jobs:
           $matrix = @{
               'os' = @('ubuntu-latest')
               'pyver' = @("3.10")
-              'cuda' = @("12.2.0")
+              'cuda' = @("12.6.2") 
               'releasetag' = @("basic")
           }
 
