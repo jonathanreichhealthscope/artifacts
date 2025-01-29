@@ -71,7 +71,7 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND: ""
           CIBW_ARCHS: "aarch64"
           CIBW_BUILD: "cp312-*" # cp311-* cp312-*
-          CIBW_BEFORE_BUILD: "cmake -B build -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=native . && cmake --build build --config Release"
+          CIBW_BEFORE_BUILD: "cd ./vendor/llama-cpp-python && cmake -B build -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=native . && cmake --build build --config Release"
         with:
           package-dir: ./vendor/llama-cpp-python
           output-dir: ./wheelhouse
