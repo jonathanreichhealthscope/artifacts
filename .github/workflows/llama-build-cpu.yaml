@@ -68,7 +68,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y ninja-build cmake
           cd ./vendor/llama-cpp-python
-          cmake -B build -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=native
+          cmake -B build -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=generic
           cmake --build build --config Release
           
       - name: Build wheels
