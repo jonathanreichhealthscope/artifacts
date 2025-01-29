@@ -64,6 +64,11 @@ jobs:
         with:
           platforms: linux/arm64
 
+      - name: Configure and Patch CMake 
+        run: |
+          cmake -B build -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=native
+          cmake --build build --config Release
+          
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         env:
