@@ -66,6 +66,7 @@ jobs:
 
       - name: Configure and Patch CMake 
         run: |
+          sudo apt-get update && sudo apt-get install -y ninja-build cmake
           cmake -B build -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=native
           cmake --build build --config Release
           
