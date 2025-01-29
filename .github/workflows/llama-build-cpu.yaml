@@ -70,7 +70,7 @@ jobs:
           CIBW_SKIP: "*musllinux* pp*" 
           CIBW_REPAIR_WHEEL_COMMAND: ""
           CIBW_ARCHS: "aarch64"
-          CIBW_BUILD: "cp310-* cp312-*" # cp311-* cp312-*
+          CIBW_BUILD: "cp312-*" # cp311-* cp312-*
         with:
           package-dir: ./vendor/llama-cpp-python
           output-dir: ./wheelhouse
