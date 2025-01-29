@@ -15,7 +15,7 @@ jobs:
       run:
         shell: pwsh
 
-##"12.2.2", "12.3.2", "12.4.1", "12.5.0" "12.2.0" cuda
+##"12.2.2", "12.3.2", "12.4.1", "12.5.0" "12.2.0"  #12.2.0 (prev tag) cuda
     steps:
       - name: Define Job Output
         id: set-matrix
@@ -84,7 +84,7 @@ jobs:
             $env:LD_LIBRARY_PATH = $env:CONDA_PREFIX + '/lib:' + $env:LD_LIBRARY_PATH
           }
           $env:VERBOSE = '1'
-          $env:CMAKE_ARGS = '-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=all'
+          $env:CMAKE_ARGS = '-DGGML_CUDA=on -DLLAVA_BUILD=off -DCMAKE_CUDA_ARCHITECTURES=all'
           $env:CMAKE_ARGS = "-DGGML_CUDA_FORCE_MMQ=OFF $env:CMAKE_ARGS"
           # if ($env:AVXVER -eq 'AVX') {
           $env:CMAKE_ARGS = $env:CMAKE_ARGS + ' -DGGML_AVX2=off -DGGML_FMA=off -DGGML_F16C=off'
