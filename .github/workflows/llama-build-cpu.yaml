@@ -71,7 +71,7 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND: ""
           CIBW_ARCHS: "aarch64"
           CIBW_BUILD: "cp312-*" # cp311-* cp312-*
-          CIBW_ENVIRONMENT: "cd ./vendor/llama-cpp-python && cmake -B build CMAKE_ARGS='-DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=native'"
+          CIBW_ENVIRONMENT: "CMAKE_ARGS='-DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=native'"
         with:
           package-dir: ./vendor/llama-cpp-python
           output-dir: ./wheelhouse
