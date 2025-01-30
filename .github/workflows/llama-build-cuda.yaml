@@ -23,7 +23,7 @@ jobs:
           $matrix = @{
               'os' = @('ubuntu-latest')
               'pyver' = @("3.12")
-              'cuda' = @("12.2.0")
+              'cuda' = @("12.3.2")
               'releasetag' = @("basic")
           }
 
