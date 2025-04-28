@@ -29,51 +29,16 @@ jobs:
         run: |
           uv sync --active --extra all
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21.1
-        env:
-          CIBW_SKIP: "*musllinux* pp*"
-          CIBW_REPAIR_WHEEL_COMMAND: ""
-          CIBW_BUILD: "cp312-*" # cp311-* cp312-*
-        with:
-          package-dir: ./vendor/llama-cpp-python
-          output-dir: ./wheelhouse
+      - name: Build source distribution
+        working-directory: ./vendor/llama-cpp-python
+        run: |
+          uv build --wheel
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
-          path: ./wheelhouse/*.whl
+          name: wheels
+          path:  ./vendor/llama-cpp-python/dist/*.whl
 
-  # build_wheels_arm64:
-  #   name: Build arm64 wheels
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: "recursive"
-
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v3
-  #       with:
-  #         platforms: linux/arm64
-          
-  #     - name: Build wheels
-  #       uses: pypa/cibuildwheel@v2.22.0
-  #       env:
-  #         CIBW_SKIP: "*musllinux* pp*" 
-  #         CIBW_REPAIR_WHEEL_COMMAND: ""
-  #         CIBW_ARCHS: "aarch64"
-  #         CIBW_BUILD: "cp312-*" # cp311-* cp312-*
-  #         CIBW_BEFORE_BUILD: "CMAKE_ARGS='-DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=generic'"
-  #       with:
-  #         package-dir: ./vendor/llama-cpp-python
-  #         output-dir: ./wheelhouse
-
-  #     - name: Upload wheels as artifacts
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: wheels_arm64
-  #         path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
