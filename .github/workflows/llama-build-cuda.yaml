@@ -48,10 +48,11 @@ jobs:
         with:
           submodules: "recursive"
 
-      - uses: actions/setup-python@v5
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: ${{ matrix.pyver }}
-          cache: 'pip'
+          version: "latest"
+          activate-environment: true
 
       - name: Setup Mamba
         uses: conda-incubator/setup-miniconda@v3.1.0
@@ -69,7 +70,6 @@ jobs:
         run: |
           $cudaVersion = $env:CUDAVER
           mamba install -y 'cuda' -c nvidia/label/cuda-$cudaVersion
-          python -m pip install build wheel
 
       - name: Build Wheel
         working-directory: vendor/llama-cpp-python
@@ -93,7 +93,7 @@ jobs:
           # if ($env:AVXVER -eq 'basic') {
           #  $env:CMAKE_ARGS = $env:CMAKE_ARGS + ' -DGGML_AVX=off -DGGML_AVX2=off -DGGML_FMA=off -DGGML_F16C=off'
           # }
-          python -m build --wheel
+          uv build --wheel
           # write the build tag to the output
           Write-Output "CUDA_VERSION=$cudaVersion" >> $env:GITHUB_ENV
 
