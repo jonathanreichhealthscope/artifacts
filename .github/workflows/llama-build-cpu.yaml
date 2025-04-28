@@ -11,79 +11,34 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-24.04]
 
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: "recursive"
 
-      - name: Update llama-cpp Submodule
-        run: |
-          git submodule update --init --recursive --remote
-      # Used to host cibuildwheel
-      - uses: actions/setup-python@v5
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.10"
-
+          version: "latest"
+          activate-environment: true
+          
       - name: Install dependencies for Linux
         working-directory:  ./vendor/llama-cpp-python
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install uv
-          RUST_LOG=trace python -m uv pip install -e .[all] --verbose
-        shell: bash
+          uv sync --active --extra all
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21.1
-        env:
-          CIBW_SKIP: "*musllinux* pp*"
-          CIBW_REPAIR_WHEEL_COMMAND: ""
-          CIBW_BUILD: "cp310-* cp312-*" # cp311-* cp312-*
-        with:
-          package-dir: ./vendor/llama-cpp-python
-          output-dir: ./wheelhouse
-
-      # - name: Run Echo Whl
-      #   working-directory: ./wheelhouse
-      #   run: |
-      #     echo $(ls -la *.whl)
+      - name: Build source distribution
+        working-directory: ./vendor/llama-cpp-python
+        run: |
+          uv build --wheel
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
-          path: ./wheelhouse/*.whl
+          name: wheels
+          path:  ./vendor/llama-cpp-python/dist/*.whl
 
-  # build_wheels_arm64:
-  #   name: Build arm64 wheels
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: "recursive"
-
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v3
-  #       with:
-  #         platforms: linux/arm64
-          
-  #     - name: Build wheels
-  #       uses: pypa/cibuildwheel@v2.22.0
-  #       env:
-  #         CIBW_SKIP: "*musllinux* pp*" 
-  #         CIBW_REPAIR_WHEEL_COMMAND: ""
-  #         CIBW_ARCHS: "aarch64"
-  #         CIBW_BUILD: "cp312-*" # cp311-* cp312-*
-  #         CIBW_BEFORE_BUILD: "CMAKE_ARGS='-DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=generic'"
-  #       with:
-  #         package-dir: ./vendor/llama-cpp-python
-  #         output-dir: ./wheelhouse
-
-  #     - name: Upload wheels as artifacts
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: wheels_arm64
-  #         path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
@@ -94,28 +49,22 @@ jobs:
         with:
           submodules: "recursive"
 
-      - uses: actions/setup-python@v5
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.10"
+          version: "latest"
+          activate-environment: true
 
       - name: Install dependencies for Linux
         working-directory:  ./vendor/llama-cpp-python
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install uv
-          RUST_LOG=trace python -m uv pip install -e .[all] --verbose
-          python -m uv pip install build
+          uv sync --active --extra all
         shell: bash
 
       - name: Build source distribution
         working-directory: ./vendor/llama-cpp-python
         run: |
-          python -m build --sdist
-
-      # - name: Run Echo
-      #   working-directory: ./vendor/llama-cpp-python/dist
-      #   run: |
-      #     echo $(ls -la *.tar.gz)
+          uv build --sdist
 
       - uses: actions/upload-artifact@v4
         with:
