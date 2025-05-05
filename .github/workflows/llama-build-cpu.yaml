@@ -29,10 +29,16 @@ jobs:
         run: |
           uv sync --active --extra all
 
-      - name: Build source distribution
-        working-directory: ./vendor/llama-cpp-python
-        run: |
-          uv -v build --wheel
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.21.1
+        env:
+          CIBW_SKIP: "*musllinux* pp*"
+          CIBW_REPAIR_WHEEL_COMMAND_LINUX: "auditwheel repair --exclude libllama.so --exclude libggml.so --exclude libggml-base.so --exclude libggml-cpu.so {wheel} -w {dest_dir}"
+          CIBW_BUILD: "cp312-*"
+          CIBW_BUILD_FRONTEND: "build[uv]"
+        with:
+          package-dir: ./vendor/llama-cpp-python
+          output-dir: ./dist
 
       - uses: actions/upload-artifact@v4
         with:
