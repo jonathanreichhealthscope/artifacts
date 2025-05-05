@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies for Linux
         working-directory:  ./vendor/llama-cpp-python
         run: |
-          uv sync --active
+          uv sync --active --extra all
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.1
@@ -64,7 +64,7 @@ jobs:
       - name: Install dependencies for Linux
         working-directory:  ./vendor/llama-cpp-python
         run: |
-          uv sync --active
+          uv sync --active --extra all
         shell: bash
 
       - name: Build source distribution
