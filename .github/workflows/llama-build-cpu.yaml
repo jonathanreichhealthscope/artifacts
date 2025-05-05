@@ -32,7 +32,7 @@ jobs:
       - name: Build source distribution
         working-directory: ./vendor/llama-cpp-python
         run: |
-          uv build --wheel
+          uv -v build --wheel
 
       - uses: actions/upload-artifact@v4
         with:
@@ -64,7 +64,7 @@ jobs:
       - name: Build source distribution
         working-directory: ./vendor/llama-cpp-python
         run: |
-          uv build --sdist
+          uv -v build --sdist
 
       - uses: actions/upload-artifact@v4
         with:
