@@ -29,21 +29,27 @@ jobs:
         run: |
           uv sync --active --extra all
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21.1
-        env:
-          CIBW_SKIP: "*manylinux_i686* *musllinux* pp*"
-          CIBW_REPAIR_WHEEL_COMMAND_LINUX: "auditwheel repair --exclude libllama.so --exclude libggml.so --exclude libggml-base.so --exclude libggml-cpu.so {wheel} -w {dest_dir}"
-          CIBW_BUILD: "cp312-*"
-          CIBW_BUILD_FRONTEND: "build[uv]"
-        with:
-          package-dir: ./vendor/llama-cpp-python
-          output-dir: ./dist
+      # - name: Build wheels
+      #   uses: pypa/cibuildwheel@v2.21.1
+      #   env:
+      #     CIBW_SKIP: "*manylinux_i686* *musllinux* pp*"
+      #     CIBW_REPAIR_WHEEL_COMMAND_LINUX: "auditwheel repair --exclude libllama.so --exclude libggml.so --exclude libggml-base.so --exclude libggml-cpu.so {wheel} -w {dest_dir}"
+      #     CIBW_BUILD: "cp312-*"
+      #     CIBW_BUILD_FRONTEND: "build[uv]"
+      #   with:
+      #     package-dir: ./vendor/llama-cpp-python
+      #     output-dir: ./dist
+
+      - name: Build source distribution
+        working-directory: ./vendor/llama-cpp-python
+        run: |
+          uv build --wheel
 
       - uses: actions/upload-artifact@v4
         with:
           name: wheels
-          path:  ./dist/*.whl
+          # path:  ./dist/*.whl
+          path: ./vendor/llama-cpp-python/dist/*.whl
 
 
   build_sdist:
