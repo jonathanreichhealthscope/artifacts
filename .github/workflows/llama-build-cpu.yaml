@@ -32,7 +32,7 @@ jobs:
       - name: Build source distribution
         working-directory: ./vendor/llama-cpp-python
         run: |
-          uv -v build --python cpython@3.12 --wheel
+          uv -v build --python cpython@3.13 --wheel
 
       - uses: actions/upload-artifact@v4
         with:
