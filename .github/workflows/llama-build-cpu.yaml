@@ -15,12 +15,8 @@ jobs:
       - name: Define Job Output
         id: set-matrix
         run: |
-          matrix=$(jq -c '{
-            "os": ["ubuntu-latest"],
-            "python-version": ["3.12", "3.13"]
-          }')
+          matrix='{"os": ["ubuntu-latest"], "python-version": ["3.12", "3.13"]}'
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
-          echo "Debug output: $matrix"
 
       - name: Echo matrix
         run: echo "${{ steps.set-matrix.outputs.matrix }}"
