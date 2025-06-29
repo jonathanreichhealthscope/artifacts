@@ -22,7 +22,7 @@ jobs:
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
       - name: echo matrix
         run: |
-          echo '${{ toJson(steps.set-matrix.outputs.matrix) }}'
+          echo '${{ steps.set-matrix.outputs.matrix }}'
   
   build_wheels:
     name: Build wheels on ${{ matrix.os }} and py-${{ matrix.python-version }}
