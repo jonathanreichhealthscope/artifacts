@@ -17,13 +17,9 @@ jobs:
         run: |
           matrix='{"os": ["ubuntu-latest"], "python-version": ["3.12", "3.13"]}'
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
-
-      - name: Echo matrix
-        run: echo "${{ steps.set-matrix.outputs.matrix }}"
-
   
   build_wheels:
-    name: Build wheels on ${{ matrix.os }} and py-${{ matrix.python-version }}
+    name: wheels ${{ matrix.os }} and py-${{ matrix.python-version }}
     needs: define_matrix
     runs-on: ${{ matrix.os }}
     strategy:
@@ -57,7 +53,7 @@ jobs:
 
 
   build_sdist:
-    name: Build source distribution on ${{ matrix.os }} and py-${{ matrix.python-version }}
+    name: sdist ${{ matrix.os }} and py-${{ matrix.python-version }}
     needs: define_matrix
     runs-on: ${{ matrix.os }}
     strategy:
