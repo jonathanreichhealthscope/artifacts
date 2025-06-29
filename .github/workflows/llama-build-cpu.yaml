@@ -6,24 +6,14 @@ permissions:
   contents: write
 
 jobs:
-  define_matrix:
-    name: Define Build Matrix
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - name: Define Job Output
-        id: set-matrix
-        run: |
-          matrix='{"os": ["ubuntu-latest"], "python-version": ["3.12", "3.13"]}'
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
   
   build_wheels:
     name: wheels ${{ matrix.os }} and py-${{ matrix.python-version }}
-    needs: define_matrix
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix: ${{ fromJSON(needs.define_matrix.outputs.matrix) }}
+      matrix:
+        os: [ubuntu-latest,]
+        python-version: ["3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -48,16 +38,13 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: wheels-py${{ matrix.python-version }}
           path: ./vendor/llama-cpp-python/dist/*.whl
 
 
   build_sdist:
-    name: sdist ${{ matrix.os }} and py-${{ matrix.python-version }}
-    needs: define_matrix
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix: ${{ fromJSON(needs.define_matrix.outputs.matrix) }}
+    name: Build Source Distribution
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -68,7 +55,7 @@ jobs:
         with:
           version: "latest"
           activate-environment: true
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
 
       - name: Install dependencies for Linux
         working-directory:  ./vendor/llama-cpp-python
@@ -79,7 +66,7 @@ jobs:
       - name: Build source distribution
         working-directory: ./vendor/llama-cpp-python
         run: |
-          uv -v build --python cpython@${{ matrix.python-version }} --sdist
+          uv -v build --sdist
 
       - uses: actions/upload-artifact@v4
         with:
