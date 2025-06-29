@@ -16,13 +16,13 @@ jobs:
         id: set-matrix
         run: |
           matrix=$(jq -c '{
-            os: ["ubuntu-latest"],
+            "os": ["ubuntu-latest"],
             "python-version": ["3.12", "3.13"]
           }')
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
       - name: echo matrix
         run: |
-          echo ${{ toJson(steps.set-matrix.outputs.matrix) }}
+          echo '${{ toJson(steps.set-matrix.outputs.matrix) }}'
   
   build_wheels:
     name: Build wheels on ${{ matrix.os }} and py-${{ matrix.python-version }}
