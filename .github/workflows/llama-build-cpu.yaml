@@ -15,13 +15,11 @@ jobs:
       - name: Define Job Output
         id: set-matrix
         run: |
-          $matrix = @{
-              'os' = @('ubuntu-latest')
-              'python-version' = @("3.12", 3.13")
-          }
-
-          $matrixOut = ConvertTo-Json $matrix -Compress
-          Write-Output ('matrix=' + $matrixOut) >> $env:GITHUB_OUTPUT
+          matrix=$(jq -c '{
+            os: ["ubuntu-latest"],
+            "python-version": ["3.12", "3.13"]
+          }')
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
   
   build_wheels:
     name: Build wheels on ${{ matrix.os }} and py-${{ matrix.python-version }}
