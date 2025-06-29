@@ -6,13 +6,29 @@ permissions:
   contents: write
 
 jobs:
+  define_matrix:
+    name: Define Build Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Define Job Output
+        id: set-matrix
+        run: |
+          $matrix = @{
+              'os' = @('ubuntu-latest')
+              'python-version' = @("3.12", 3.13")
+          }
+
+          $matrixOut = ConvertTo-Json $matrix -Compress
+          Write-Output ('matrix=' + $matrixOut) >> $env:GITHUB_OUTPUT
+  
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.os }} and py-${{ matrix.python-version }}
+    needs: define_matrix
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:
-        os: [ubuntu-22.04]
-
+      matrix: ${{ fromJSON(needs.define_matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,16 +39,17 @@ jobs:
         with:
           version: "latest"
           activate-environment: true
+          python-version: ${{ matrix.python-version }}
           
       - name: Install dependencies for Linux
         working-directory:  ./vendor/llama-cpp-python
         run: |
-          uv sync --active --extra all
+          uv sync --extra all
 
       - name: Build source distribution
         working-directory: ./vendor/llama-cpp-python
         run: |
-          uv -v build --python cpython@3.13 --wheel
+          uv -v build --python cpython@${{ matrix.python-version }} --wheel
 
       - uses: actions/upload-artifact@v4
         with:
@@ -41,9 +58,11 @@ jobs:
 
 
   build_sdist:
-    name: Build source distribution
-    runs-on: ubuntu-latest
-
+    name: Build source distribution on ${{ matrix.os }} and py-${{ matrix.python-version }}
+    needs: define_matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{ fromJSON(needs.define_matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,17 +73,18 @@ jobs:
         with:
           version: "latest"
           activate-environment: true
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies for Linux
         working-directory:  ./vendor/llama-cpp-python
         run: |
-          uv sync --active --extra all
+          uv sync --extra all
         shell: bash
 
       - name: Build source distribution
         working-directory: ./vendor/llama-cpp-python
         run: |
-          uv -v build --sdist
+          uv -v build --python cpython@${{ matrix.python-version }} --sdist
 
       - uses: actions/upload-artifact@v4
         with:
