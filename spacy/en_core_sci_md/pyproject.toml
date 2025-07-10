@@ -1,0 +1,152 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "en_core_sci_md"
+version = "0.5.4"
+description = "Spacy Models for Biomedical Text."
+readme = "README.md"
+license = {text = "CC BY-SA 3.0"}
+authors = [
+    {name = "Allen Institute for Artificial Intelligence", email = "ai2-info@allenai.org"}
+]
+maintainers = [
+    {name = "Allen Institute for Artificial Intelligence", email = "ai2-info@allenai.org"}
+]
+keywords = ["spacy", "nlp", "biomedical", "text-processing", "machine-learning"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+    "spacy>=3.7.4,<3.8.0"
+]
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://allenai.github.io/SciSpaCy/"
+Repository = "https://github.com/allenai/scispacy"
+Documentation = "https://allenai.github.io/SciSpaCy/"
+"Bug Tracker" = "https://github.com/allenai/scispacy/issues"
+
+[project.entry-points."spacy_models"]
+en_core_sci_md = "en_core_sci_md"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["en_core_sci_md*"]
+
+[tool.setuptools.package-data]
+"en_core_sci_md" = [
+    "en_core_sci_md-0.5.4/**/*",
+    "meta.json",
+    "*.json",
+    "*.cfg",
+    "*.txt",
+    "*.bin",
+    "*.pkl",
+    "*.dat",
+    "*.msgpack"
+]
+
+[tool.setuptools.dynamic]
+# This section can be used if you want to make version dynamic
+# version = {attr = "en_core_sci_md.__version__"}
+
+# Build configuration
+[tool.bdist_wheel]
+universal = false
+
+# Additional metadata that mimics the meta.json structure
+[tool.spacy-model]
+lang = "en"
+name = "core_sci_md"
+version = "0.5.4"
+spacy_version = ">=3.7.4,<3.8.0"
+spacy_git_version = "bff8725f4"
+pipeline = ["tok2vec", "tagger", "attribute_ruler", "lemmatizer", "parser", "ner"]
+components = ["tok2vec", "tagger", "attribute_ruler", "lemmatizer", "parser", "ner"]
+disabled = []
+sources = ["OntoNotes 5", "Common Crawl", "GENIA 1.0"]
+
+[tool.spacy-model.vectors]
+width = 200
+vectors = 50000
+keys = 4087446
+name = "en_core_sci_md.vectors"
+
+[tool.spacy-model.performance]
+tag_acc = 0.0
+lemma_acc = 0.0
+dep_uas = 0.0
+dep_las = 0.0
+dep_las_per_type = 0.0
+sents_p = 0.0
+sents_r = 0.0
+sents_f = 0.0
+ents_f = 0.6890205417
+ents_p = 0.7005162758
+ents_r = 0.6778960145
+ner_loss = 182743.1982668939
+
+[tool.spacy-model.performance.ents_per_type.ENTITY]
+p = 0.7005162758
+r = 0.6778960145
+f = 0.6890205417
+
+# Development dependencies (optional)
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "black",
+    "flake8",
+    "mypy",
+    "build",
+    "twine"
+]
+test = [
+    "pytest>=6.0",
+    "pytest-cov"
+]
+
+# Tool configurations
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+known_first_party = ["en_core_sci_md"] 
